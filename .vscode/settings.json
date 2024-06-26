@@ -2,6 +2,12 @@
 	"files.associations": {
 		"ft_printf.h": "c",
 		"typeinfo": "c",
-		"pipex.h": "c"
+		"pipex.h": "c",
+		"types.h": "c",
+		"unistd.h": "c",
+		"fcntl.h": "c",
+		"wait.h": "c",
+		"stdio.h": "c",
+		"libft.h": "c"
 	}
 }

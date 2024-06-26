@@ -1,0 +1,7 @@
+pipex
+./pipex-tester
+./pipexTester
+./pipex_tester
+*.o
+*.sh
+*.a
