@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:03:59 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/26 13:25:07 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:28:43 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define PIPEX_H
 
 # include "libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <errno.h>
-# include <string.h>
 
 typedef struct s_cmd
 {
@@ -51,11 +51,12 @@ void				create_pipe(t_cmd *cmd);
 char				**get_path(char **env);
 t_cmd				*parse_cmd(char **cmd, char **path);
 
-void	test_error(int std_err, t_pipex *pipex);
+void				test_error(int std_err, t_pipex *pipex);
 void				test_cmd(t_pipex *pipex, t_cmd *cmd);
 void				exec_cmd_pipe(t_pipex *pipex, t_cmd *cmd, int *std_in);
 void				exec_last_cmd_pipe(t_pipex *pipex, t_cmd *cmd, int *std_in,
 						int std_out);
 int					ft_pipex(t_pipex *pipex, int std_in, int std_out);
+void				check_argv(int argc);
 
 #endif

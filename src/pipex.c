@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 15:39:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/26 14:25:34 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:28:55 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,14 @@ pid_t	exec_cmd_last(t_pipex *pipex, t_cmd *cmd, int *std_in, int std_out)
 
 void	ft_fork_wait(t_cmd *cmd, int *status)
 {
-	int	status_error;
+	int	state;
 
-	while (cmd)
+	while (cmd && waitpid(cmd->fork_pid, &state, 0) >= 0)
 	{
-		waitpid(cmd->fork_pid, status, 0);
-		if (WIFEXITED(*status))
-		{
-			status_error = WEXITSTATUS(*status);
-			if (status_error != 0)
-			{
-				if (status_error != 253)
-					ft_fprintf(2, "pipex: %s : %s\n", cmd->name,
-						strerror(status_error));
-				else
-					ft_fprintf(2, "%s : %s\n", cmd->name,
-						"Command not found");
-			}
+		if (WIFEXITED(state))
 			cmd = cmd->next;
-		}
 	}
+	*status = WIFEXITED(state);
 }
 
 int	ft_pipex(t_pipex *pipex, int std_in, int std_out)
@@ -98,7 +86,7 @@ int	ft_pipex(t_pipex *pipex, int std_in, int std_out)
 	return (status);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char *argv[], char *env[])
 {
 	t_pipex	pipex;
 	t_cmd	*cmd_parsed;
@@ -106,9 +94,10 @@ int	main(int argc, char **argv, char **env)
 
 	if (!env)
 	{
-		perror("Env is NULL");
+		ft_fprintf(2, "pipex: %s\n", "Env is NULL");
 		return (0);
 	}
+	check_argv(argc);
 	std_err = 0;
 	pipex.std_in = open(argv[1], O_RDONLY);
 	if (pipex.std_in == -1)

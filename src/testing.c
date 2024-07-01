@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcaptari <gcaptari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcaptari <gabrielcaptari@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:56:24 by gcaptari          #+#    #+#             */
-/*   Updated: 2024/06/26 13:12:01 by gcaptari         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:28:45 by gcaptari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	check_argv(int argc)
+{
+	if (argc < 5)
+	{
+		ft_fprintf(2, "pipex: %s\n", "numders args < 5");
+		exit(EXIT_FAILURE);
+	}
+}
 
 void	test_error(int std_err, t_pipex *pipex)
 {
